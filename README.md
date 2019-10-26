@@ -59,7 +59,13 @@ Create two wiki pages on your subreddit: `sidebar_sync` and `sidebar`. Set the e
 
 ## Instructions for Moderators
 
-Coming soon.
+### Adding new content
+
+New content that you wish to be synced between old Reddit and the redesign should be added to the `sidebar_sync` wiki page under a new header (`####`). The header name should be concise and contain underscores instead of spaces. A single line below that should contain the content. Example:
+
+`####Upcoming_Events
+This is a list of upcoming events. It appears on old Reddit and the redesign!`
+
 
 ## Configuration
 
