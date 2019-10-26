@@ -1,0 +1,7 @@
+[DEFAULT]
+client_id=INSERT_HERE
+client_secret=INSERT_HERE
+username=INSERT_HERE
+password=INSERT_HERE
+
+check_for_updates=False
