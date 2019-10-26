@@ -13,10 +13,10 @@ try:
    import xi
 except ImportError:
    pass
-#try:
-   #import xiv
-#except ImportError:
-   #pass
+try:
+   import xiv
+except ImportError:
+   pass
 
 
 config = configparser.ConfigParser()
@@ -155,10 +155,12 @@ def sync_sidebar_widget(sub):
                title = header_arg2.replace("_"," ")
          elif header == "Server_Status":
             dynamic_content = handle_server_status(sub)
-         elif header == "Latest_Topics":
+         elif header == "Latest_Topics" or header == "Topics":
             dynamic_content = handle_latest_blogs(sub, 'topics')
          elif header == "Server_News":
             dynamic_content = handle_latest_blogs(sub, 'news')
+         elif header == "Notices":
+            dynamic_content = handle_latest_blogs(sub, 'notices')
          elif header == "Maintenance":
             dynamic_content = handle_latest_blogs(sub, 'maintenance')
          if dynamic_content:
