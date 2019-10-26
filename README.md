@@ -16,6 +16,7 @@ Want to suggest an improvement or report a bug? Submit an [issue](https://github
         - [Initialization](#initialization)
     - [Instructions for Moderators](#instructions-for-moderators)
         - [Adding new content](#adding-new-content)
+        - [Editing existing content](#editing-existing-content)
     - [Configuration](#configuration)
 
 <!-- /TOC -->
@@ -65,13 +66,17 @@ Create two wiki pages on your subreddit: `sidebar_sync` and `sidebar`. Set the e
 New content that you wish to be synced between old Reddit and the redesign should be added to the `sidebar_sync` wiki page under a new header (`####`). The header name should be concise and contain underscores instead of spaces. Below that should contain the content which can be multiple lines. Example:
 
 ```
-####Upcoming_Events
-This is a list of upcoming events. It appears on old Reddit and the redesign!
+####Current_Shows
+This could be a list of relevant TV shows. It appears on old Reddit and the redesign!
 ```
 
 ### Editing existing content
 
 If content exists that is being synced between old Reddit and the redesign, it is defined on the `sidebar_sync` wiki page. Simply edit your desired text on `sidebar_sync`, save the page, and wait for the next scheduled run of the bot.
+
+### Deleting content
+
+Simply delete the corresponding text on the `sidebar_sync` wiki page including the header, as well as the header ID section on the `sidebar` wiki page.
 
 ## Configuration
 
