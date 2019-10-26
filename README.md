@@ -17,6 +17,7 @@ Want to suggest an improvement or report a bug? Submit an [issue](https://github
     - [Instructions for Moderators](#instructions-for-moderators)
         - [Adding new content](#adding-new-content)
         - [Editing existing content](#editing-existing-content)
+        - [Deleting content](#deleting-content)
     - [Configuration](#configuration)
 
 <!-- /TOC -->
@@ -63,12 +64,20 @@ Create two wiki pages on your subreddit: `sidebar_sync` and `sidebar`. Set the e
 
 ### Adding new content
 
-New content that you wish to be synced between old Reddit and the redesign should be added to the `sidebar_sync` wiki page under a new header (`####`). The header name should be concise and contain underscores instead of spaces. Below that should contain the content which can be multiple lines. Example:
+1) New content that you wish to be synced between old Reddit and the redesign should be added to the `sidebar_sync` wiki page under a new header (`####`). The header name should be concise and contain underscores instead of spaces. Below that should contain the content which can be multiple lines. Example:
 
 ```
 ####Current_Shows
 This could be a list of relevant TV shows. It appears on old Reddit and the redesign!
 ```
+
+2) On the `sidebar` *wiki* page, add a line that corresponds with the header name from above and surround it with `%%`. This page defines where the content is located on the sidebar for old Reddit (this makes it essentially structured data). Example:
+
+```
+%%Current_Shows%%
+```
+
+3) Open the redesign and manually create a new widget. The title of the widget should be the header name from above, except replace the underscores with spaces. The widget text can be left blank, as it will be automatically updated. Example: `Current Shows` as a widget title.
 
 ### Editing existing content
 
