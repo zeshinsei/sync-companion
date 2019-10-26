@@ -166,13 +166,11 @@ def sync_sidebar_widget(sub):
          if dynamic_content:
             new_sidebar = new_sidebar.replace(sidebar_segment,dynamic_content)
          else:
-            debug_msg(header_rep + ": Inserting sidebar data= " + sidebar_segment)
             new_sidebar = new_sidebar.replace(header_rep,sidebar_segment)
          if dynamic_content:
             update_widget(sub, title, dynamic_content)
          else:
             update_widget(sub, title, sidebar_segment)
-   debug_msg(new_sidebar)
    return new_sidebar
 
 
