@@ -2,7 +2,7 @@
 
 Sync Companion is a Reddit bot originally developed for /r/ffxiv that helps reduce moderator workload with subreddit automation and synchronizing sidebars with widgets. It is provided as an open source bot for your own hosting.
 
-Want to suggest an improvement or report a bug? Submit an Issue. If you're seeking to submit changes, just open a Pull Request.
+Want to suggest an improvement or report a bug? Submit an [issue](https://github.com/zeno-mcdohl/sync-companion/issues). If you're seeking to submit changes, just open a Pull Request.
 
 --------------
 
@@ -39,7 +39,7 @@ Want to suggest an improvement or report a bug? Submit an Issue. If you're seeki
 
 ### Prerequisites
 
-This bot has been developed and tested under:
+See `requirements.txt`. This bot has been developed and tested under:
 
 * Linux 5.1.17
 * Python 3.6.6
@@ -48,12 +48,14 @@ This bot has been developed and tested under:
 ### Installation
 
 1) Download this bot code 
-2) Create a scheduled task
-3) TBA
+2) Copy `config.ini.example` to `config.ini`, and `praw.ini.example` to `praw.ini`
+3) Enter your API information into praw.ini as [instructed here](https://praw.readthedocs.io/en/latest/getting_started/configuration/prawini.html)
+3) Create a scheduled task (e.g. `crontab` in Linux) running `synccompanion.py` with Python and using an argument of your subreddit name (e.g. `ffxiv`)
+
 
 ### Initialization
 
-Create wiki page TBA
+Create two wiki pages on your subreddit: `sidebar_sync` and `sidebar`. Set the edit permission to mods only and de-list the page from the wiki listing.
 
 ## Instructions for Moderators
 
