@@ -5,6 +5,7 @@ import common
 import configparser
 import logger
 import reddit
+import re
 
 ### Script arguments ###
 parser = argparse.ArgumentParser()
@@ -20,6 +21,8 @@ logmsg = logging.getLogger("Rotating_Log")
 
 ### Handles main segment ###
 def main():
+   if not re.match(r'^[A-Za-z0-9_]+$', args.subname):
+      sys.exit("Invalid subreddit name, aborting.")
    s = reddit.reddit.subreddit(args.subname)
    common.debug_msg('Mod Permission: ' + str(s.user_is_moderator))
    if not s.user_is_moderator:
