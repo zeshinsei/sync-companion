@@ -94,6 +94,28 @@ Simply delete the corresponding text on the `sidebar_sync` wiki page including t
 
 ## Configuration
 
+### Dynamic content
+
+The following items can be defined in the `sidebar_sync` wiki page to provide dynamic content. Format: `####String_Below|Argument 1|Argument 2`
+
+* **Twitch_Streams**: Provides a list of links of current streams for a specific game. The second line can be any header ID you wish for use on the `sidebar` wiki page, below we used TWITCH as a header name. Syntax: 
+```
+####Twitch_Streams|GAME NAME HERE
+%%TWITCH%%
+```
+
+* **Discord_Info**: Provides a member count for a specific Discord server. Syntax:
+```
+####Discord_Info|DISCORD SERVER ID HERE
+%%DISCORD%%
+```
+
+* **Countdown**: Provides a countdown clock that counts down to a specific date & time. The 2nd argument is the name of the widget title this should update. Example:
+```
+####Countdown|2019-12-19 14:00:00|Meetup_starts_at
+%%CTDOWN%%
+```
+
 ### config.ini
 
 * **DebugMode**: `False` or `True`; if True this will enable console logging and not push any changes live.
