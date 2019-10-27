@@ -18,6 +18,7 @@ Want to suggest an improvement or report a bug? Submit an [issue](https://github
         - [Editing existing content](#editing-existing-content)
         - [Deleting content](#deleting-content)
     - [Configuration](#configuration)
+        - [Dynamic content](#dynamic-content)
         - [config.ini](#configini)
         - [praw.ini](#prawini)
     - [License](#license)
@@ -27,7 +28,7 @@ Want to suggest an improvement or report a bug? Submit an [issue](https://github
 ## Features
 
 * Allows for sidebar to be structured data.
-* Synchronizes sidebar text and widgets. Widget types supported:
+* Synchronizes sidebar and widgets. Widget types supported:
   * Textarea
   * Community List
 * Any form of markdown used.
@@ -91,6 +92,10 @@ If content exists that is being synced between old Reddit and the redesign, it i
 ### Deleting content
 
 Simply delete the corresponding text on the *sidebar_sync* wiki page including the header, as well as the header ID section on the *sidebar* wiki page.
+
+### Adding only sidebar content
+
+If you wish to add content to the sidebar (such as formatting, text around CSS hacks, etc) simply edit the *sidebar* wiki page and wait for the next bot run. Do not edit `/about/sidebar` as the bot handles that, just edit the `sidebar` wiki page.
 
 ## Configuration
 
