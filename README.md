@@ -17,6 +17,7 @@ Want to suggest an improvement or report a bug? Submit an [issue](https://github
         - [Adding new content](#adding-new-content)
         - [Editing existing content](#editing-existing-content)
         - [Deleting content](#deleting-content)
+        - [Adding only sidebar content](#adding-only-sidebar-content)
     - [Configuration](#configuration)
         - [Dynamic content](#dynamic-content)
         - [config.ini](#configini)
@@ -95,7 +96,7 @@ Simply delete the corresponding text on the *sidebar_sync* wiki page including t
 
 ### Adding only sidebar content
 
-If you wish to add content to the sidebar (such as formatting, text around CSS hacks, etc) simply edit the *sidebar* wiki page and wait for the next bot run. Do not edit `/about/sidebar` as the bot handles that, just edit the `sidebar` wiki page.
+If you wish to add content to the sidebar (such as formatting, text around CSS hacks, etc) simply edit the *sidebar* wiki page and wait for the next bot run. Do not edit `/about/sidebar` as the bot handles that, just edit the *sidebar* wiki page.
 
 ## Configuration
 
