@@ -85,7 +85,7 @@ Note per above that only a single newline should follow the header, not two newl
 
 ### Editing existing content
 
-If content exists that is being synced between old Reddit and the redesign, it is defined on the `sidebar_sync` wiki page. Simply edit your desired text on `sidebar_sync`, save the page, and wait for the next scheduled run of the bot.
+If content exists that is being synced between old Reddit and the redesign, it is defined on the `sidebar_sync` wiki page. Simply edit your desired text on `sidebar_sync`, save the page, and wait for the next scheduled run of the bot. [Example gif.](https://i.imgur.com/aMGwVav.gifv)
 
 ### Deleting content
 
