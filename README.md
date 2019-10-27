@@ -55,9 +55,9 @@ See [requirements.txt](requirements.txt). This bot has been developed and tested
 1) Download this bot code.
 2) Copy `config.ini.example` to `config.ini`, and `praw.ini.example` to `praw.ini`.
 3) Enter your Reddit API information into praw.ini as [instructed here](https://praw.readthedocs.io/en/latest/getting_started/configuration/prawini.html).
-4) Copy your sidebar content (`/about/sidebar`) to a new wiki page `sidebar`. Set the edit permission to mods only and de-list the page from the wiki listing.
-5) Create another new wiki page `sidebar_sync`. Set the permissions again as described above.
-6) Validate the bot by making a change to the `sidebar` wiki page then running `synccompanion.py` with Python, using the argument of your subreddit name. This should push your changes live to the actual sidebar. Example: `python synccompanion.py AskReddit`
+4) Copy your sidebar content (`/about/sidebar`) to a new wiki page *sidebar*. Set the edit permission to mods only and de-list the page from the wiki listing.
+5) Create another new wiki page *sidebar_sync*. Set the permissions again as described above.
+6) Validate the bot by making a change to the *sidebar* wiki page then running `synccompanion.py` with Python, using the argument of your subreddit name. This should push your changes live to the actual sidebar. Example: `python synccompanion.py AskReddit`
 7) Create a scheduled task (e.g. `crontab` in Linux) running `synccompanion.py` with Python and using an argument of your subreddit name (e.g. `AskReddit`).
 
 
@@ -65,7 +65,7 @@ See [requirements.txt](requirements.txt). This bot has been developed and tested
 
 ### Adding new content
 
-1) New content that you wish to be synced between old Reddit and the redesign should be added to the `sidebar_sync` wiki page under a new header (`####`). The header name should be concise and contain underscores instead of spaces; it represents the ID of this content section. Below that should **contain the content** which can be multiple lines. Example:
+1) New content that you wish to be synced between old Reddit and the redesign should be added to the *sidebar_sync* wiki page under a new header (`####`). The header name should be concise and contain underscores instead of spaces; it represents the ID of this content section. Below that should **contain the content** which can be multiple lines. Example:
 
 ```
 ####Current_Shows
@@ -74,7 +74,7 @@ This could be a list of relevant TV shows. It appears on old Reddit and the rede
 
 Note per above that only a single newline should follow the header, not two newlines.
 
-2) On the `sidebar` *wiki* page, add a line that corresponds with the header name from above and surround it with `%%`. This page defines **where the content is located** on the sidebar for old Reddit (this makes it essentially structured data). Example:
+2) On the *sidebar* wiki page, add a line that corresponds with the header name from above and surround it with `%%`. This page defines **where the content is located** on the sidebar for old Reddit (this makes it essentially structured data). Example:
 
 ```
 %%Current_Shows%%
@@ -86,19 +86,19 @@ Note per above that only a single newline should follow the header, not two newl
 
 ### Editing existing content
 
-If content exists that is being synced between old Reddit and the redesign, it is defined on the `sidebar_sync` wiki page. Simply edit your desired text on `sidebar_sync`, save the page, and wait for the next scheduled run of the bot. [Example gif.](https://i.imgur.com/aMGwVav.gifv)
+If content exists that is being synced between old Reddit and the redesign, it is defined on the *sidebar_sync* wiki page. Simply edit your desired text on *sidebar_sync*, save the page, and wait for the next scheduled run of the bot. [Example gif.](https://i.imgur.com/aMGwVav.gifv)
 
 ### Deleting content
 
-Simply delete the corresponding text on the `sidebar_sync` wiki page including the header, as well as the header ID section on the `sidebar` wiki page.
+Simply delete the corresponding text on the *sidebar_sync* wiki page including the header, as well as the header ID section on the *sidebar* wiki page.
 
 ## Configuration
 
 ### Dynamic content
 
-The following items can be defined in the `sidebar_sync` wiki page to provide dynamic content. Format: `####String_Below|Argument 1|Argument 2`
+The following items can be defined in the *sidebar_sync* wiki page to provide dynamic content. Format: `####String_Below|Argument 1|Argument 2`
 
-* **Twitch_Streams**: Provides a list of links of current streams for a specific game. The second line can be any header ID you wish for use on the `sidebar` wiki page, below we used TWITCH as a header name. Syntax: 
+* **Twitch_Streams**: Provides a list of links of current streams for a specific game. The second line can be any header ID you wish for use on the *sidebar* wiki page, below we used TWITCH as a header name. Syntax: 
 ```
 ####Twitch_Streams|GAME NAME HERE
 %%TWITCH%%
