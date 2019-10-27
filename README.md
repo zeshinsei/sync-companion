@@ -18,6 +18,9 @@ Want to suggest an improvement or report a bug? Submit an [issue](https://github
         - [Editing existing content](#editing-existing-content)
         - [Deleting content](#deleting-content)
     - [Configuration](#configuration)
+        - [config.ini](#configini)
+        - [praw.ini](#prawini)
+    - [License](#license)
 
 <!-- /TOC -->
 
@@ -55,7 +58,7 @@ See [requirements.txt](requirements.txt). This bot has been developed and tested
 4) Copy your sidebar content (`/about/sidebar`) to a new wiki page `sidebar`. Set the edit permission to mods only and de-list the page from the wiki listing.
 5) Create another new wiki page `sidebar_sync`. Set the permissions again as described above.
 6) Validate the bot by making a change to the `sidebar` wiki page then running `synccompanion.py` with Python, using the argument of your subreddit name. This should push your changes live to the actual sidebar. Example: `python synccompanion.py AskReddit`
-7) Create a scheduled task (e.g. `crontab` in Linux) running `synccompanion.py` with Python and using an argument of your subreddit name (e.g. `ffxiv`).
+7) Create a scheduled task (e.g. `crontab` in Linux) running `synccompanion.py` with Python and using an argument of your subreddit name (e.g. `AskReddit`).
 
 
 ## Instructions for Moderators
