@@ -82,21 +82,21 @@ def calc_countdown(targetdate):
 ### Get list of Twitch streams ###
 def get_twitch_streams(gamename):
    return "" # temp disabled while broken
-   twitch_body = ""
-   twitch_data = v3.streams.all(game=gamename)
-   twitch_list = twitch_data['streams']
-   ct = 0
-   for a in twitch_list:
-      viewers = a['viewers']
-      twitch_dat = a['channel']
-      twitch_body = twitch_body + '\n* [' + twitch_dat['display_name'] + '](' + twitch_dat['url'] + ')'
-      twitch_body = twitch_body + ' ^((' + str(viewers) + ' viewers)^)'
-      ct = ct + 1
-      if ct >= int(config['DEFAULT']['ItemLimit'])*3:
-         break
-   if config['DEFAULT'].getboolean('DebugMode'):
-      debug_msg(twitch_body)
-   return twitch_body
+   #twitch_body = ""
+   #twitch_data = v3.streams.all(game=gamename)
+   #twitch_list = twitch_data['streams']
+   #ct = 0
+   #for a in twitch_list:
+   #   viewers = a['viewers']
+   #   twitch_dat = a['channel']
+   #   twitch_body = twitch_body + '\n* [' + twitch_dat['display_name'] + '](' + twitch_dat['url'] + ')'
+   #   twitch_body = twitch_body + ' ^((' + str(viewers) + ' viewers)^)'
+   #   ct = ct + 1
+   #   if ct >= int(config['DEFAULT']['ItemLimit'])*3:
+   #      break
+   #if config['DEFAULT'].getboolean('DebugMode'):
+   #   debug_msg(twitch_body)
+   #return twitch_body
 
 
 ### Get member count for a Discord server ###
