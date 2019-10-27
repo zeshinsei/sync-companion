@@ -93,4 +93,13 @@ Simply delete the corresponding text on the `sidebar_sync` wiki page including t
 
 ## Configuration
 
-TBA
+### config.ini
+
+* **DebugMode**: `False` or `True`; if True this will enable console logging and not push any changes live.
+* **ItemLimit**: An integer; used with automated content to return this maximum number of items.
+* **NumCountdownLimit**: An integer; used with the countdown clock feature and is the maximum number of clocks allowed on sidebar.
+* **UserAgent**: User agent string; used with any calls to web content including the Discord API.
+
+### praw.ini
+
+See https://praw.readthedocs.io/en/latest/getting_started/configuration/prawini.html
