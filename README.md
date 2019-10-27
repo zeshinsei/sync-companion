@@ -1,6 +1,6 @@
 # Sync Companion
 
-Sync Companion is a Reddit bot originally developed for /r/ffxiv that helps reduce moderator workload with subreddit automation and synchronizing sidebars with widgets. It is provided as an open source bot for your own hosting.
+Sync Companion is a Reddit bot that helps reduce moderator workload with subreddit automation and synchronizing the sidebar with widgets. It is provided as an open source bot for your own hosting.
 
 Want to suggest an improvement or report a bug? Submit an [issue](https://github.com/zeno-mcdohl/sync-companion/issues). If you're seeking to submit changes, just open a Pull Request.
 
@@ -13,7 +13,6 @@ Want to suggest an improvement or report a bug? Submit an [issue](https://github
     - [Setup](#setup)
         - [Prerequisites](#prerequisites)
         - [Installation](#installation)
-        - [Initialization](#initialization)
     - [Instructions for Moderators](#instructions-for-moderators)
         - [Adding new content](#adding-new-content)
         - [Editing existing content](#editing-existing-content)
@@ -42,7 +41,7 @@ Want to suggest an improvement or report a bug? Submit an [issue](https://github
 
 ### Prerequisites
 
-See `requirements.txt`. This bot has been developed and tested under:
+See [requirements.txt](requirements.txt). This bot has been developed and tested under:
 
 * Linux 5.1.17
 * Python 3.6.6
@@ -50,15 +49,14 @@ See `requirements.txt`. This bot has been developed and tested under:
 
 ### Installation
 
-1) Download this bot code 
-2) Copy `config.ini.example` to `config.ini`, and `praw.ini.example` to `praw.ini`
-3) Enter your API information into praw.ini as [instructed here](https://praw.readthedocs.io/en/latest/getting_started/configuration/prawini.html)
-3) Create a scheduled task (e.g. `crontab` in Linux) running `synccompanion.py` with Python and using an argument of your subreddit name (e.g. `ffxiv`)
+1) Download this bot code.
+2) Copy `config.ini.example` to `config.ini`, and `praw.ini.example` to `praw.ini`.
+3) Enter your Reddit API information into praw.ini as [instructed here](https://praw.readthedocs.io/en/latest/getting_started/configuration/prawini.html).
+4) Copy your sidebar content (`/about/sidebar`) to a new wiki page `sidebar`. Set the edit permission to mods only and de-list the page from the wiki listing.
+5) Create another new wiki page `sidebar_sync`. Set the permissions again as described above.
+6) Validate the bot by making a change to the `sidebar` wiki page then running `synccompanion.py` with Python, using the argument of your subreddit name. This should push your changes live to the actual sidebar. Example: `python synccompanion.py AskReddit`
+7) Create a scheduled task (e.g. `crontab` in Linux) running `synccompanion.py` with Python and using an argument of your subreddit name (e.g. `ffxiv`).
 
-
-### Initialization
-
-Create two wiki pages on your subreddit: `sidebar_sync` and `sidebar`. Set the edit permission to mods only and de-list the page from the wiki listing.
 
 ## Instructions for Moderators
 
@@ -103,3 +101,7 @@ Simply delete the corresponding text on the `sidebar_sync` wiki page including t
 ### praw.ini
 
 See https://praw.readthedocs.io/en/latest/getting_started/configuration/prawini.html
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
