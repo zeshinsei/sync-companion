@@ -2,7 +2,7 @@
 
 Sync Companion is a Reddit bot that helps reduce moderator workload with subreddit automation and synchronizing the sidebar with widgets. It is provided as an open source bot for your own hosting.
 
-Want to suggest an improvement or report a bug? Submit an [issue](https://github.com/zeno-mcdohl/sync-companion/issues). If you're seeking to submit changes, just open a Pull Request.
+Want to suggest an improvement or report a bug? Submit an [issue](https://github.com/zeno-mcdohl/sync-companion/issues), or vote on an existing issue using reactions. If you're seeking to submit changes, just open a Pull Request.
 
 --------------
 
