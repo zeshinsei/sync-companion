@@ -255,13 +255,14 @@ def get_server_status_style(sub, status, which):
 
 ### Determine if sidebar has been updated since last bot run ###
 def bool_sidebar_queued(sub):
+   username = reddit.reddit.user.me().name
    for item in sub.wiki['sidebar'].revisions():
       sidebar_time = item['timestamp']
       break
    for item2 in sub.wiki['sidebar_sync'].revisions():
       sidebarsync_time = item2['timestamp']
       break
-   for log in sub.mod.log(limit=1,mod='FFXIV_Sidebar'):
+   for log in sub.mod.log(limit=1,mod=username):
        latest_run = log.created_utc
 
    if not config['DEFAULT'].getboolean('DynamicContent'):
@@ -269,6 +270,7 @@ def bool_sidebar_queued(sub):
          debug_msg("Sidebar appears to need an update, will run bot.")
          return True
    else:
+      debug_msg("Sidebar always needs update due to dynamic content, will run bot.")
       return True
 
    return False
