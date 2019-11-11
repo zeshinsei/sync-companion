@@ -101,6 +101,7 @@ def get_twitch_streams(gamename):
 
 ### Get member count for a Discord server ###
 def get_discord_online(id):
+   debug_msg("Discord: " + str(id))
    discord = "https://discordapp.com/api/guilds/"+id+"/widget.json"
    uagent = config['DEFAULT']['UserAgent']
    req = urllib.request.Request(
@@ -110,7 +111,10 @@ def get_discord_online(id):
            'User-Agent': uagent
        }
    )
-   f = urllib.request.urlopen(req)
+   try:
+      f = urllib.request.urlopen(req)
+   except Exception as e:
+      logmsg.critical("[ERROR] Failed to obtain Discord info: %s.  %s", str(req), e)
    data = f.read()
    encoding = f.info().get_content_charset('utf-8')
    objects3 = json.loads(data.decode(encoding))
@@ -129,48 +133,53 @@ def sync_sidebar_widget(sub):
    sync_split = syncdata.split('####')
    for s_item in sync_split:
       if s_item:
-         dynamic_content = None
-         s_data = s_item.split('\r\n',1)
-         headerfull = s_data[0]
-         header_parts = headerfull.split('|')
-         if len(header_parts) > 1:
-            header_arg = header_parts[1]
-         if len(header_parts) > 2:
-            header_arg2 = header_parts[2]
-         header = header_parts[0]
-         title = header.replace("_"," ")
-         sync_body = s_data[1]
-         sync_body = sync_body.rstrip()
-         header_rep = "%%"+header+"%%"
-         sidebar_segment = sync_body
-         if header == "Twitch_Streams":
-            dynamic_content = get_twitch_streams(header_arg)
-         elif header == "Discord_Info":
-            dynamic_content = str(get_discord_online(header_arg))
-         elif header == "Countdown":
-            timer_ct = 0
-            if timer_ct < int(config['DEFAULT']['NumCountdownLimit']):
-               dynamic_content = calc_countdown(header_arg)
-               timer_ct += 1
-               title = header_arg2.replace("_"," ")
-         elif header == "Server_Status":
-            dynamic_content = handle_server_status(sub)
-         elif header == "Latest_Topics" or header == "Topics":
-            dynamic_content = handle_latest_blogs(sub, 'topics')
-         elif header == "Server_News":
-            dynamic_content = handle_latest_blogs(sub, 'news')
-         elif header == "Notices":
-            dynamic_content = handle_latest_blogs(sub, 'notices')
-         elif header == "Maintenance":
-            dynamic_content = handle_latest_blogs(sub, 'maintenance')
-         if dynamic_content:
-            new_sidebar = new_sidebar.replace(sidebar_segment,dynamic_content)
-         else:
-            new_sidebar = new_sidebar.replace(header_rep,sidebar_segment)
-         if dynamic_content:
-            update_widget(sub, title, dynamic_content)
-         else:
-            update_widget(sub, title, sidebar_segment)
+         try:
+            dynamic_content = None
+            debug_msg(s_item)
+            s_data = s_item.split('\n',1)
+            headerfull = s_data[0].replace("\r","")
+            header_parts = headerfull.split('|')
+            if len(header_parts) > 1:
+               header_arg = header_parts[1]
+            if len(header_parts) > 2:
+               header_arg2 = header_parts[2]
+            header = header_parts[0]
+            title = header.replace("_"," ")
+            sync_body = s_data[1]
+            sync_body = sync_body.rstrip()
+            header_rep = "%%"+header+"%%"
+            sidebar_segment = sync_body
+            if header == "Twitch_Streams":
+               dynamic_content = get_twitch_streams(header_arg)
+            elif header == "Discord_Info":
+               dynamic_content = str(get_discord_online(header_arg))
+            elif header == "Countdown":
+               timer_ct = 0
+               if timer_ct < int(config['DEFAULT']['NumCountdownLimit']):
+                  dynamic_content = calc_countdown(header_arg)
+                  timer_ct += 1
+                  title = header_arg2.replace("_"," ")
+            elif header == "Server_Status":
+               dynamic_content = handle_server_status(sub)
+            elif header == "Latest_Topics" or header == "Topics":
+               dynamic_content = handle_latest_blogs(sub, 'topics')
+            elif header == "Server_News":
+               dynamic_content = handle_latest_blogs(sub, 'news')
+            elif header == "Notices":
+               dynamic_content = handle_latest_blogs(sub, 'notices')
+            elif header == "Maintenance":
+               dynamic_content = handle_latest_blogs(sub, 'maintenance')
+            if dynamic_content:
+               new_sidebar = new_sidebar.replace(sidebar_segment,dynamic_content)
+            else:
+               new_sidebar = new_sidebar.replace(header_rep,sidebar_segment)
+            if dynamic_content:
+               update_widget(sub, title, dynamic_content)
+            else:
+               update_widget(sub, title, sidebar_segment)
+         except Exception as e:
+            logmsg.critical("[ERROR] Failed to parse sync data: %s.  %s", s_data, e)
+
    return new_sidebar
 
 
@@ -183,7 +192,7 @@ def update_widget(sub, widgetname, newcontent):
       styledata = None
       if isinstance(widget, praw.models.CommunityList):
          clist = []
-         sublist = newcontent.split('\r\n')
+         sublist = newcontent.split('\n')
          for subitem in sublist:
             subname = subitem.replace("*","").lstrip()
             subname = subname.replace("r/","")

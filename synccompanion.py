@@ -6,6 +6,8 @@ import configparser
 import logger
 import reddit
 import re
+import checklog
+from datetime import datetime
 
 ### Script arguments ###
 parser = argparse.ArgumentParser()
@@ -28,6 +30,7 @@ def main():
    if not s.user_is_moderator:
       logmsg.critical("[ERROR] Bot check as mod failed, aborting.")
       sys.exit("Shutting down due to bot permission issue.")
+   #checklog.check_for_admins(s) #needs to be finished
    if not common.bool_sidebar_queued(s):
       sys.exit("Shutting down due to no need to run bot, no new sidebar content found.")
    new_sidebar = common.sync_sidebar_widget(s)
@@ -38,7 +41,11 @@ def main():
       except Exception as e:
          logmsg.critical("[ERROR] Updating sidebar - %s", e)
    common.debug_msg("Bot run has completed. API usage: " + str(reddit.reddit.auth.limits))
-
+   configname = 'SysLastRun' + s.display_name
+   currentrun = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+   config['DEFAULT'][configname] = currentrun
+   with open('config.ini', 'w') as configfile:
+      config.write(configfile)
 
 ### Start the script ###
 if __name__ == '__main__':
