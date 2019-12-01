@@ -73,7 +73,7 @@ def calc_countdown(targetdate):
       else:
          countdown_str = "Arrived"
       return countdown_str
-   except:
+   except Exception as e:
       logmsg.critical("[ERROR] Unable to calculate countdown: %s", e)
       return "?"
 
