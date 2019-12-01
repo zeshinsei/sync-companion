@@ -3,7 +3,6 @@ from pprint import pprint
 import sys
 import logging
 from datetime import datetime, timedelta, date
-from twitch.api import v3
 import urllib.request
 import json
 import praw
@@ -79,26 +78,6 @@ def calc_countdown(targetdate):
       return "?"
 
 
-### Get list of Twitch streams ###
-def get_twitch_streams(gamename):
-   return "" # temp disabled while broken
-   #twitch_body = ""
-   #twitch_data = v3.streams.all(game=gamename)
-   #twitch_list = twitch_data['streams']
-   #ct = 0
-   #for a in twitch_list:
-   #   viewers = a['viewers']
-   #   twitch_dat = a['channel']
-   #   twitch_body = twitch_body + '\n* [' + twitch_dat['display_name'] + '](' + twitch_dat['url'] + ')'
-   #   twitch_body = twitch_body + ' ^((' + str(viewers) + ' viewers)^)'
-   #   ct = ct + 1
-   #   if ct >= int(config['DEFAULT']['ItemLimit'])*3:
-   #      break
-   #if config['DEFAULT'].getboolean('DebugMode'):
-   #   debug_msg(twitch_body)
-   #return twitch_body
-
-
 ### Get member count for a Discord server ###
 def get_discord_online(id):
    debug_msg("Discord: " + str(id))
@@ -150,7 +129,7 @@ def sync_sidebar_widget(sub):
             header_rep = "%%"+header+"%%"
             sidebar_segment = sync_body
             if header == "Twitch_Streams":
-               dynamic_content = get_twitch_streams(header_arg)
+               dynamic_content = ""
             elif header == "Discord_Info":
                dynamic_content = str(get_discord_online(header_arg))
             elif header == "Countdown":

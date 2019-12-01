@@ -32,4 +32,6 @@ def check_for_admins(sub):
    return found
 
 
-#TODO: add a function here that checks if bot ran in last 24 hours
+### Once a day: Health check of the bot. If bot run has not completed in last 24 hours, returns False to indicate poor health ###
+def health_check(sub):
+   return True

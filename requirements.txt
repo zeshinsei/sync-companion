@@ -1,3 +1,3 @@
+requests==2.21.0
 praw==6.3.1
-python_twitch==1.3.0
-twitch==0.1
+beautifulsoup4==4.8.1
