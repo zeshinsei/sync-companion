@@ -122,6 +122,12 @@ The following items can be defined in the *sidebar_sync* wiki page to provide dy
 %%CTDOWN%%
 ```
 
+* **RSS_Feed**: Provides a list of items or links from a RSS feed. Security consideration: The URL should be trusted and the *sidebar_sync* wiki page should be ensured it is private to moderators only, and the moderators are trusted individuals. The 2nd argument is the URL to the RSS feed (.rss, .xml, etc). Example:
+```
+####RSS_Feed|http://www.playonline.com/ff11us/polnews/news.xml
+%%RSST%%
+```
+
 ### config.ini
 
 * **DebugMode**: `False` or `True`; if True this will enable console logging and not push any changes live.
