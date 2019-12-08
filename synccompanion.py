@@ -31,6 +31,7 @@ def main():
       logmsg.critical("[ERROR] Bot check as mod failed, aborting.")
       sys.exit("Shutting down due to bot permission issue.")
    checklog.check_for_admins(s)
+   checklog.health_check(s)
    if not common.bool_sidebar_queued(s):
       sys.exit("Shutting down due to no need to run bot, no new sidebar content found.")
    new_sidebar = common.sync_sidebar_widget(s)

@@ -2,12 +2,14 @@ import configparser
 from pprint import pprint
 import sys
 import logging
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date, timezone
 import urllib.request
 import json
 import praw
 import re
 import reddit
+import feedparser
+import pytz
 try:
    import xi
 except ImportError:
@@ -25,12 +27,12 @@ logmsg = logging.getLogger("Rotating_Log")
 ### Outputs debug messages ###
 def debug_msg(debug_str):
    if config['DEFAULT'].getboolean('DebugMode'):
-      print("   <<<- [DEBUG]")
+      print("   <<<- [DEBUG INFO]")
       if debug_str:
          pprint(debug_str)
       else:
          print("[WARNING] debug_msg: No data.")
-      print("   [DEBUG] ->>>")
+      print("    ->>>")
 
 
 ### Send us a modmail to alert something ###
@@ -148,6 +150,12 @@ def sync_sidebar_widget(sub):
                dynamic_content = handle_latest_blogs(sub, 'notices')
             elif header == "Maintenance":
                dynamic_content = handle_latest_blogs(sub, 'maintenance')
+            elif header == "RSS_Feed":
+               feeditems = get_rss_items(header_arg, int(config['DEFAULT']['ItemLimit']))
+               feedstr = ""
+               for i in feeditems:
+                  feedstr += ">* [" + i['title'] + "](" + i['link'] + ")\n"
+               dynamic_content = feedstr
             if dynamic_content:
                new_sidebar = new_sidebar.replace(sidebar_segment,dynamic_content)
             else:
@@ -264,3 +272,28 @@ def bool_sidebar_queued(sub):
       return True
 
    return False
+
+
+### Gets a feed (RSS, Atom) and returns number of items from it up to item_limit. Returns a list obj, no formatting involved. ###
+def get_rss_items(url, item_limit):
+   feed = feedparser.parse(url)
+   return feed.entries[0:item_limit]
+
+
+### Posts new items from a feed to the subreddit ###
+def post_rss_links(sub, feed, datestr, time_zone):
+   dateobj = datetime.strptime(feed[0]['date'], datestr)
+   tzone = pytz.timezone(time_zone)
+   dateobj = tzone.localize(dateobj)
+   dateobj = dateobj.astimezone(tz=None)
+   title = feed[0]['title']
+   link = feed[0]['link']
+   configname = 'SysLastRun' + sub
+   lastrunstr = config['DEFAULT'][configname]
+   lastrunobj = datetime.strptime(lastrunstr, '%Y-%m-%d %H:%M:%S').astimezone(tz=None)
+   debug_msg(lastrunobj)
+   debug_msg(title+": ")
+   debug_msg(dateobj)
+   if lastrunobj < dateobj:
+      debug_msg("Newer RSS item, posting!")
+      reddit.reddit.subreddit(sub).submit(title, url=link)

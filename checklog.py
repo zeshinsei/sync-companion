@@ -3,7 +3,8 @@ import reddit
 from common import debug_msg, alert_mods
 import configparser
 
-### Once a day, checks if modlog contains admin activity from Anti-Evil Operations; modmails a warning if so. Returns False if none found ###
+### Once a day, checks if modlog contains admin activity from Anti-Evil Operations; modmails a warning if so.
+### Returns False if none found
 def check_for_admins(sub):
    found = False
    config = configparser.ConfigParser()
@@ -34,4 +35,10 @@ def check_for_admins(sub):
 
 ### Once a day: Health check of the bot. If bot run has not completed in last 24 hours, returns False to indicate poor health ###
 def health_check(sub):
+   config = configparser.ConfigParser()
+   config.read('config.ini')
+   configname = 'SysLastRun' + sub.display_name
+   lastrunstr = config['DEFAULT'][configname]
+   if (datetime.utcnow() - datetime.strptime(lastrunstr, '%Y-%m-%d %H:%M:%S')) > timedelta(1):
+      debug_msg("Warning: bot appears to not have run in last 24 hours!")
    return True
