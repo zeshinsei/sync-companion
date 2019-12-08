@@ -11,9 +11,9 @@ def check_for_admins(sub):
    config.read('config.ini')
    configname = 'SysLastRun' + sub.display_name
    lastrunstr = config['DEFAULT'][configname]
-   lastrun = datetime.strptime(lastrunstr, '%Y-%m-%d %H:%M:%S')
+   lastrun = datetime.strptime(lastrunstr, config['DEFAULT']['lastrunformat'])
    lastday = lastrun.day
-   currentrun = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+   currentrun = datetime.utcnow().strftime(config['DEFAULT']['lastrunformat'])
    currentday = datetime.utcnow().day
    if lastday == currentday:
       debug_msg("Not a new day, won't check log.")
@@ -39,6 +39,6 @@ def health_check(sub):
    config.read('config.ini')
    configname = 'SysLastRun' + sub.display_name
    lastrunstr = config['DEFAULT'][configname]
-   if (datetime.utcnow() - datetime.strptime(lastrunstr, '%Y-%m-%d %H:%M:%S')) > timedelta(1):
+   if (datetime.utcnow() - datetime.strptime(lastrunstr, config['DEFAULT']['lastrunformat'])) > timedelta(1):
       debug_msg("Warning: bot appears to not have run in last 24 hours!")
    return True

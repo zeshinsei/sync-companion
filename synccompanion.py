@@ -43,7 +43,7 @@ def main():
          logmsg.critical("[ERROR] Updating sidebar - %s", e)
    common.debug_msg("Bot run has completed. API usage: " + str(reddit.reddit.auth.limits))
    configname = 'SysLastRun' + s.display_name
-   currentrun = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+   currentrun = datetime.utcnow().strftime(config['DEFAULT']['lastrunformat'])
    config['DEFAULT'][configname] = currentrun
    with open('config.ini', 'w') as configfile:
       config.write(configfile)

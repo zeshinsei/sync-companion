@@ -290,7 +290,7 @@ def post_rss_links(sub, feed, datestr, time_zone):
    link = feed[0]['link']
    configname = 'SysLastRun' + sub
    lastrunstr = config['DEFAULT'][configname]
-   lastrunobj = datetime.strptime(lastrunstr, '%Y-%m-%d %H:%M:%S').astimezone(tz=None)
+   lastrunobj = datetime.strptime(lastrunstr, config['DEFAULT']['lastrunformat']).astimezone(tz=None)
    debug_msg(lastrunobj)
    debug_msg(title+": ")
    debug_msg(dateobj)
