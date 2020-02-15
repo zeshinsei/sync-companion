@@ -42,11 +42,12 @@ def main():
       except Exception as e:
          logmsg.critical("[ERROR] Updating sidebar - %s", e)
    common.debug_msg("Bot run has completed. API usage: " + str(reddit.reddit.auth.limits))
-   configname = 'SysLastRun' + s.display_name
-   currentrun = datetime.utcnow().strftime(config['DEFAULT']['lastrunformat'])
-   config['DEFAULT'][configname] = currentrun
-   with open('config.ini', 'w') as configfile:
-      config.write(configfile)
+   if not debug_mode:
+      configname = 'SysLastRun' + s.display_name
+      currentrun = datetime.utcnow().strftime(config['DEFAULT']['lastrunformat'])
+      config['DEFAULT'][configname] = currentrun
+      with open('config.ini', 'w') as configfile:
+         config.write(configfile)
 
 ### Start the script ###
 if __name__ == '__main__':
