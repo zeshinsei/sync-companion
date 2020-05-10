@@ -11,14 +11,12 @@ logmsg = logging.getLogger("Rotating_Log")
 ### Returns False if none found
 def check_for_admins(sub):
    found = False
-   config = core.get_config()
    configf = configparser.ConfigParser()
    configf.read('config.ini')
    configname = 'SysLastRun' + sub.display_name
    lastrunstr = configf['DEFAULT'][configname]
    lastrun = datetime.strptime(lastrunstr, configf['DEFAULT']['lastrunformat'])
    lastday = lastrun.day
-   currentrun = datetime.utcnow().strftime(configf['DEFAULT']['lastrunformat'])
    currentday = datetime.utcnow().day
    if lastday == currentday:
       debug_msg("Not a new day, won't check modlog for admin activity.")
@@ -40,7 +38,6 @@ def check_for_admins(sub):
 
 ### Once a day: Health check of the bot. If bot run has not completed in last 24 hours, returns False to indicate poor health ###
 def health_check(sub):
-   config = core.get_config()
    configf = configparser.ConfigParser()
    configf.read('config.ini')
    configname = 'SysLastRun' + sub.display_name
