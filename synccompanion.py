@@ -35,7 +35,6 @@ def main():
    if not common.bool_sidebar_queued(s):
       sys.exit("Shutting down due to no need to run bot, no new sidebar content found.")
    new_sidebar = common.sync_sidebar_widget(s)
-   common.debug_msg(new_sidebar)
    sidebar_state = common.check_sidebar_freespace(s.display_name,new_sidebar)
    if not debug_mode:
       try:

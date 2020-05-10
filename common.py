@@ -179,9 +179,13 @@ def update_widget(sub, widgetname, newcontent):
          for subitem in sublist:
             subname = subitem.replace("*","").lstrip()
             subname = subname.replace("r/","")
+            subname = subname.replace("\r","") #Testing
             clist.append(subname)
          try:
-            if not config['DEFAULT'].getboolean('DebugMode'):
+            existinglist = []
+            for subn in widget.data:
+               existinglist.append(subn.display_name)
+            if not config['DEFAULT'].getboolean('DebugMode') and existinglist != clist:
                widget.mod.update(shortName=widgetname, data=clist,description=' ')
          except Exception as e:
             logmsg.critical("[ERROR] Updating widget %s - %s", widgetname, vars(e.response))
@@ -191,7 +195,7 @@ def update_widget(sub, widgetname, newcontent):
                statustxt = get_server_status_style(sub, newcontent, 'txt')
                styledata = get_server_status_style(sub, newcontent, 'style')
          try:
-            if not config['DEFAULT'].getboolean('DebugMode'):
+            if not config['DEFAULT'].getboolean('DebugMode') and widget.text != statustxt:
                if styledata:
                   widget.mod.update(shortName=widgetname, text=statustxt, styles=styledata)
                else:
