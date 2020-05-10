@@ -7,6 +7,7 @@ import logger
 import reddit
 import re
 import checklog
+import core
 from datetime import datetime
 
 ### Script arguments ###
@@ -14,10 +15,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("subname", help="Name of subreddit")
 args = parser.parse_args()
 
-### Config ini vars ###
-config = configparser.ConfigParser()
-config.read('config.ini')
-debug_mode = config['DEFAULT'].getboolean('DebugMode')
+### Setup the logging ###
 logger.initialize(args.subname)
 logmsg = logging.getLogger("Rotating_Log")
 
@@ -26,15 +24,20 @@ def main():
    if not re.match(r'^[A-Za-z0-9_]+$', args.subname):
       sys.exit("Invalid subreddit name, aborting.")
    s = reddit.reddit.subreddit(args.subname)
+   config = core.get_config()
+   debug_mode = config['DEFAULT'].getboolean('DebugMode')
    common.debug_msg('Mod Permission: ' + str(s.user_is_moderator))
    if not s.user_is_moderator:
       logmsg.critical("[ERROR] Bot check as mod failed, aborting.")
       sys.exit("Shutting down due to bot permission issue.")
    checklog.check_for_admins(s)
    checklog.health_check(s)
+   #if debug_mode:
+   #   common.cleanup_modmail(s)
    if not common.bool_sidebar_queued(s):
       sys.exit("Shutting down due to no need to run bot, no new sidebar content found.")
    new_sidebar = common.sync_sidebar_widget(s)
+   common.debug_msg(new_sidebar)
    sidebar_state = common.check_sidebar_freespace(s.display_name,new_sidebar)
    if not debug_mode:
       try:
@@ -43,11 +46,13 @@ def main():
          logmsg.critical("[ERROR] Updating sidebar - %s", e)
    common.debug_msg("Bot run has completed. API usage: " + str(reddit.reddit.auth.limits))
    if not debug_mode:
+      configf = configparser.ConfigParser()
+      configf.read('config.ini')
       configname = 'SysLastRun' + s.display_name
-      currentrun = datetime.utcnow().strftime(config['DEFAULT']['lastrunformat'])
-      config['DEFAULT'][configname] = currentrun
+      currentrun = datetime.utcnow().strftime(configf['DEFAULT']['lastrunformat'])
+      configf['DEFAULT'][configname] = currentrun
       with open('config.ini', 'w') as configfile:
-         config.write(configfile)
+         configf.write(configfile)
 
 ### Start the script ###
 if __name__ == '__main__':

@@ -10,6 +10,7 @@ import re
 import reddit
 import feedparser
 import pytz
+import core
 try:
    import xi
 except ImportError:
@@ -19,9 +20,7 @@ try:
 except ImportError:
    pass
 
-
-config = configparser.ConfigParser()
-config.read('config.ini')
+config = core.get_config()
 logmsg = logging.getLogger("Rotating_Log")
 
 ### Outputs debug messages ###
@@ -82,7 +81,7 @@ def calc_countdown(targetdate):
 
 ### Get member count for a Discord server ###
 def get_discord_online(id):
-   debug_msg("Discord: " + str(id))
+   debug_msg("Discord ID: " + str(id))
    discord = "https://discordapp.com/api/guilds/"+id+"/widget.json"
    uagent = config['DEFAULT']['UserAgent']
    req = urllib.request.Request(
@@ -99,10 +98,7 @@ def get_discord_online(id):
    data = f.read()
    encoding = f.info().get_content_charset('utf-8')
    objects3 = json.loads(data.decode(encoding))
-   discord_ct = 0
-   for o in objects3['members']:
-      discord_ct = discord_ct + 1
-   return discord_ct
+   return objects3['presence_count']
 
 
 ### Sync sidebar and widgets based on sidebar_sync page ###
@@ -228,10 +224,8 @@ def handle_server_status(sub):
 
 ### Similar to above, this can be used to return dynamic content if you have a module for it ###
 def handle_latest_blogs(sub, which):
-   if sub == 'ffxi' and 'xi' in sys.modules:
-      return xi.get_playonline(which, int(config['DEFAULT']['ItemLimit']))
-   elif sub == 'ffxiv' and 'xiv' in sys.modules:
-      return xiv.obtain_lodestone(which)
+   if sub == 'ffxiv' and 'xiv' in sys.modules:
+     return xiv.obtain_lodestone(which)
 
 
 ### More dynamic content systems ###
@@ -288,12 +282,25 @@ def post_rss_links(sub, feed, datestr, time_zone):
    dateobj = dateobj.astimezone(tz=None)
    title = feed[0]['title']
    link = feed[0]['link']
+   configf = configparser.ConfigParser()
+   configf.read('config.ini')
    configname = 'SysLastRun' + sub
-   lastrunstr = config['DEFAULT'][configname]
-   lastrunobj = datetime.strptime(lastrunstr, config['DEFAULT']['lastrunformat']).astimezone(tz=None)
+   lastrunstr = configf['DEFAULT'][configname]
+   lastrunobj = datetime.strptime(lastrunstr, configf['DEFAULT']['lastrunformat']).astimezone(tz=None)
    debug_msg(lastrunobj)
    debug_msg(title+": ")
    debug_msg(dateobj)
    if lastrunobj < dateobj:
       debug_msg("Newer RSS item, posting!")
       reddit.reddit.subreddit(sub).submit(title, url=link)
+
+
+### In development ###
+def cleanup_modmail(sub):
+   debug_msg("Starting modmail cleanup")
+   modmails = sub.modmail.conversations(state='all',limit=2)
+   for modmail in modmails:
+      debug_msg("Modmail: " + modmail.subject)
+      debug_msg("Is_hidden: " + str(modmail.messages[0].author.is_hidden))
+      #pprint(vars(modmail.messages[0].author))
+
