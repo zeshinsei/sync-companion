@@ -179,7 +179,7 @@ def update_widget(sub, widgetname, newcontent):
          for subitem in sublist:
             subname = subitem.replace("*","").lstrip()
             subname = subname.replace("r/","")
-            subname = subname.replace("\r","") #Testing
+            subname = subname.replace("\r","")
             clist.append(subname)
          try:
             existinglist = []
@@ -299,12 +299,10 @@ def post_rss_links(sub, feed, datestr, time_zone):
       reddit.reddit.subreddit(sub).submit(title, url=link)
 
 
-### In development ###
+### Auto-archives any modmails with the defined subject from a hidden mod where chain has no replies in it ###
 def cleanup_modmail(sub):
-   debug_msg("Starting modmail cleanup")
-   modmails = sub.modmail.conversations(state='all',limit=2)
+   modmails = sub.modmail.conversations(state='all')
    for modmail in modmails:
-      debug_msg("Modmail: " + modmail.subject)
-      debug_msg("Is_hidden: " + str(modmail.messages[0].author.is_hidden))
-      #pprint(vars(modmail.messages[0].author))
+      if modmail.messages[0].author.is_hidden and len(modmail.messages) == 1 and config['DEFAULT']['ModmailArchiveTitle'] == modmail.subject:
+         modmail.archive()
 
