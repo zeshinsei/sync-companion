@@ -1,7 +1,15 @@
 [DEFAULT]
+check_for_updates=False
+
+[subreddit1]
 client_id=INSERT_HERE
 client_secret=INSERT_HERE
 username=INSERT_HERE
 password=INSERT_HERE
 
-check_for_updates=False
+[subreddit2]
+client_id=INSERT_HERE
+client_secret=INSERT_HERE
+username=INSERT_HERE
+password=INSERT_HERE
+
