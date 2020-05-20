@@ -49,6 +49,8 @@ def main():
       configname = 'SysLastRun' + s.display_name
       currentrun = datetime.utcnow().strftime(configf['DEFAULT']['lastrunformat'])
       configf['DEFAULT'][configname] = currentrun
+      usern = "u_" + reddit.reddit.user.me().name
+      reddit.reddit.subreddit(usern).mod.update(public_description="Bot last online " + currentrun + " UTC")
       with open('config.ini', 'w') as configfile:
          configf.write(configfile)
 
