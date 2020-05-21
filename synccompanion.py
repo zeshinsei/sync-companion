@@ -50,7 +50,12 @@ def main():
       currentrun = datetime.utcnow().strftime(configf['DEFAULT']['lastrunformat'])
       configf['DEFAULT'][configname] = currentrun
       usern = "u_" + reddit.reddit.user.me().name
-      reddit.reddit.subreddit(usern).mod.update(public_description="Bot last online " + currentrun + " UTC")
+      statusmsg = "Bot last online " + currentrun + " UTC. "
+      if checklog.check_log_errors(s):
+         statusmsg = statusmsg + "❌Errors seen today."
+      else:
+         statusmsg = statusmsg + "✔️No errors today."
+      reddit.reddit.subreddit(usern).mod.update(public_description=statusmsg)
       with open('config.ini', 'w') as configfile:
          configf.write(configfile)
 

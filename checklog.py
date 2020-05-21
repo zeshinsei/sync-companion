@@ -4,6 +4,7 @@ from common import debug_msg, alert_mods
 import core
 import configparser
 import logging
+import os
 logmsg = logging.getLogger("Rotating_Log")
 
 
@@ -43,6 +44,8 @@ def health_check(sub):
    configname = 'SysLastRun' + sub.display_name
    lastrunstr = configf['DEFAULT'][configname]
 
+   check_log_errors(sub)
+
    with open(logmsg.handlers[0].baseFilename) as f:
       if 'Bot is in bad health state' in f.read():
          debug_msg("Bot previously in a bad health state, not sending modmail alert again today.")
@@ -53,3 +56,15 @@ def health_check(sub):
       alert_mods(sub.display_name, 'Alert: bot failed to run', 'Warning: This bot has failed to run at last attempt. If this repeats over multiple days, review the bot log files for more details.')
       return False
    return True
+
+
+### Check current log file, if from today this indicates errors ###
+def check_log_errors(sub):
+   logmodified = os.path.getmtime(logmsg.handlers[0].baseFilename)
+   if (datetime.utcnow() - datetime.fromtimestamp(logmodified)) < timedelta(1):
+      debug_msg("Errors seen today.")
+      return True
+   else:
+      debug_msg("No errors today.")
+      return False
+
