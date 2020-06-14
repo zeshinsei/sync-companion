@@ -195,7 +195,11 @@ def update_widget(sub, widgetname, newcontent):
                statustxt = get_server_status_style(sub, newcontent, 'txt')
                styledata = get_server_status_style(sub, newcontent, 'style')
          try:
-            if not config['DEFAULT'].getboolean('DebugMode') and widget.text != statustxt:
+            statustxtnew = statustxt
+            ### Widgets seem to strip all final newlines, ignore it when comparing
+            if statustxt[-1] == '\n':
+               statustxtnew = statustxt[:-1]
+            if not config['DEFAULT'].getboolean('DebugMode') and widget.text != statustxtnew:
                if styledata:
                   widget.mod.update(shortName=widgetname, text=statustxt, styles=styledata)
                else:
