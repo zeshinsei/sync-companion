@@ -42,7 +42,7 @@ def main():
          s.mod.update(description=new_sidebar)
       except Exception as e:
          logmsg.critical("[ERROR] Updating sidebar - %s", e)
-   common.debug_msg("Bot run has completed... API usage: " + str(reddit.reddit.auth.limits))
+   common.debug_msg("Bot run has completed.. API usage: " + str(reddit.reddit.auth.limits))
    if not debug_mode:
       configf = configparser.ConfigParser()
       configf.read('config.ini')
