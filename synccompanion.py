@@ -60,6 +60,18 @@ def main():
       with open('config.ini', 'w') as configfile:
          configf.write(configfile)
 
+
+def main_loop(subreddit):
+   """Process the main loop of each run."""
+   checklog.check_for_admins(subreddit)
+   checklog.health_check(subreddit)
+   common.cleanup_modmail(subreddit)
+   if not common.bool_sidebar_queued(s):
+      common.debug_msg("No sync needed, no new sidebar content found.")
+      return False
+   return True
+
+
 def bot_loop():
    """Run the bot indefinitely."""
    if not re.match(r'^[A-Za-z0-9_]+$', args.subname):
@@ -73,12 +85,13 @@ def bot_loop():
       sys.exit("Shutting down due to bot permission issue.")
    running = True
    common.debug_msg("Starting bot...")
-   s = reddit.reddit.subreddit(args.subname)
    while running:
       try:
-         #TODO main loop
-         for submission in s.stream.submissions(skip_existing=False):
-            common.debug_msg('Found submission ' + submission.title)
+         print("Waiting 5min between executions")
+         time.sleep(300)
+         #main loop below
+         if not main_loop(s):
+            continue
       except KeyboardInterrupt:
          print('Keyboard Interrupt. Ending bot.')
          running = False
