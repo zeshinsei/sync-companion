@@ -34,7 +34,7 @@ def main():
    checklog.health_check(s)
    common.cleanup_modmail(s)
    if not common.bool_sidebar_queued(s):
-      sys.exit("No sync needed, no new sidebar content found.")
+      sys.exit("Shutting down due to no need to run bot... no new sidebar content found.")
    new_sidebar = common.sync_sidebar_widget(s)
    sidebar_state = common.check_sidebar_freespace(s.display_name,new_sidebar)
    if not debug_mode:
@@ -42,7 +42,7 @@ def main():
          s.mod.update(description=new_sidebar)
       except Exception as e:
          logmsg.critical("[ERROR] Updating sidebar - %s", e)
-   common.debug_msg("Bot run has completed. API usage: " + str(reddit.reddit.auth.limits))
+   common.debug_msg("Bot run has completed.. API usage: " + str(reddit.reddit.auth.limits))
    if not debug_mode:
       configf = configparser.ConfigParser()
       configf.read('config.ini')
@@ -58,35 +58,6 @@ def main():
       reddit.reddit.subreddit(usern).mod.update(public_description=statusmsg)
       with open('config.ini', 'w') as configfile:
          configf.write(configfile)
-
-def bot_loop():
-   """Run the bot indefinitely."""
-   if not re.match(r'^[A-Za-z0-9_]+$', args.subname):
-      sys.exit("Invalid subreddit name, aborting.")
-   s = reddit.reddit.subreddit(args.subname)
-   config = core.get_config()
-   debug_mode = config['DEFAULT'].getboolean('DebugMode')
-   common.debug_msg('Mod Permission: ' + str(s.user_is_moderator))
-   if not s.user_is_moderator:
-      logmsg.critical("[ERROR] Bot check as mod failed, aborting.")
-      sys.exit("Shutting down due to bot permission issue.")
-   running = True
-   common.debug_msg("Starting bot...")
-   s = reddit.reddit.subreddit(args.subname)
-   while running:
-      try:
-         #TODO main loop
-         for submission in subreddit.stream.submissions(skip_existing=False):
-            common.debug_msg('Found submission ' + submission.title)
-      except KeyboardInterrupt:
-         print('Keyboard Interrupt. Ending bot.')
-         running = False
-      except Exception as e:
-         print('Exception raised per below. Attempting to continue bot in 10 seconds.')
-         print(e)
-         time.sleep(10)
-   return 0
-
 
 ### Start the script ###
 if __name__ == '__main__':
