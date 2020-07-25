@@ -8,7 +8,6 @@ import reddit
 import re
 import checklog
 import core
-import time
 from datetime import datetime
 
 ### Script arguments ###
@@ -77,16 +76,14 @@ def bot_loop():
    while running:
       try:
          #TODO main loop
-         for submission in s.stream.submissions(skip_existing=False):
+         for submission in subreddit.stream.submissions(skip_existing=False):
             common.debug_msg('Found submission ' + submission.title)
       except KeyboardInterrupt:
          print('Keyboard Interrupt. Ending bot.')
          running = False
       except Exception as e:
          print('Exception raised per below. Attempting to continue bot in 10 seconds.')
-         logmsg.critical('Exception raised per below. Attempting to continue bot in 10 seconds.')
          print(e)
-         logmsg.critical(e)
          time.sleep(10)
    return 0
 
