@@ -63,37 +63,12 @@ def main():
 
 def main_loop(subreddit):
    """Process the main loop of each run."""
-   config = core.get_config()
-   debug_mode = config['DEFAULT'].getboolean('DebugMode')
    checklog.check_for_admins(subreddit)
    checklog.health_check(subreddit)
    common.cleanup_modmail(subreddit)
-   if not common.bool_sidebar_queued(subreddit):
+   if not common.bool_sidebar_queued(s):
       common.debug_msg("No sync needed, no new sidebar content found.")
       return False
-   new_sidebar = common.sync_sidebar_widget(subreddit)
-   sidebar_state = common.check_sidebar_freespace(subreddit.display_name,new_sidebar)
-   if not debug_mode:
-      try:
-         subreddit.mod.update(description=new_sidebar)
-      except Exception as e:
-         logmsg.critical("[ERROR] Updating sidebar - %s", e)
-   common.debug_msg("Bot run has completed. API usage: " + str(reddit.reddit.auth.limits))
-   if not debug_mode:
-      configf = configparser.ConfigParser()
-      configf.read('config.ini')
-      configname = 'SysLastRun' + subreddit.display_name
-      currentrun = datetime.utcnow().strftime(configf['DEFAULT']['lastrunformat'])
-      configf['DEFAULT'][configname] = currentrun
-      usern = "u_" + reddit.reddit.user.me().name
-      statusmsg = "Bot last online " + currentrun + " UTC. "
-      if checklog.check_log_errors(subreddit):
-         statusmsg = statusmsg + "❌Errors seen today."
-      else:
-         statusmsg = statusmsg + "✔️No errors today."
-      reddit.reddit.subreddit(usern).mod.update(public_description=statusmsg)
-      with open('config.ini', 'w') as configfile:
-         configf.write(configfile)
    return True
 
 
@@ -112,8 +87,8 @@ def bot_loop():
    common.debug_msg("Starting bot...")
    while running:
       try:
-         common.debug_msg("Waiting 45min between executions")
-         time.sleep(2700)
+         print("Waiting 5min between executions")
+         time.sleep(300)
          #main loop below
          if not main_loop(s):
             continue
