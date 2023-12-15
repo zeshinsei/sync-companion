@@ -50,7 +50,7 @@ See [requirements.txt](requirements.txt). This bot has been developed and tested
 
 * Linux 5.1.17
 * Python 3.6.6
-* PRAW 6.3.1
+* PRAW 6.3.1, 7.5.0
 
 ### Installation
 
