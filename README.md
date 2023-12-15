@@ -1,4 +1,4 @@
-# Sync Companion for Reddit [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=zeno-mcdohl_sync-companion&metric=alert_status)](https://sonarcloud.io/dashboard?id=zeno-mcdohl_sync-companion)
+# Sync Companion for Reddit [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=zeshinsei_sync-companion&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=zeshinsei_sync-companion)
 
 Sync Companion is a Reddit bot that helps reduce moderator workload with subreddit automation and synchronizing the sidebar with widgets. It is provided as an open source bot for your own hosting.
 
